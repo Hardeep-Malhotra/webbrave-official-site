@@ -11,7 +11,7 @@ import Portfolio from "./pages/Portfolio";
 import Process from "./pages/Process";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
-import ScrollToTop from "./components/ui/ScrollToTop";
+import ScrollToTop from "./components/ui/scrollToTop";
 
 import './App.css'
 
