@@ -2,26 +2,26 @@ import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import connectDB from "./config/db.js";
-// Load environment variables
+import contactRoutes from "./routes/contactRoutes.js";
+
 dotenv.config();
 
-// connect MongoDB
 connectDB();
 
 const app = express();
 
-// Middlewares
 app.use(cors());
 app.use(express.json());
 
-// Test routing
+// Routes
+app.use("/api/contact", contactRoutes);
 
 app.get("/", (req, res) => {
-  res.send("WebBrave API is running ");
+  res.send("WebBrave API is running 🚀");
 });
 
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
-  console.log(`SERVER running on port ${PORT}`);
+  console.log(`Server running on port ${PORT}`);
 });
