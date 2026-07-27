@@ -10,17 +10,21 @@ const Portfolio = () => {
   return (
     <section
       id="portfolio"
-      className="bg-[#07111F] py-24"
+      className="relative bg-[#070B16] py-20 lg:py-28 overflow-hidden"
     >
-      <div className="max-w-7xl mx-auto px-6">
+      {/* Background Decorative Radial Glows */}
+      <div className="absolute top-1/3 -left-32 w-96 h-96 bg-amber-500/5 rounded-full blur-[140px] pointer-events-none" />
+      <div className="absolute bottom-10 right-0 w-96 h-96 bg-yellow-500/5 rounded-full blur-[140px] pointer-events-none" />
 
+      <div className="max-w-7xl mx-auto px-6 lg:px-10 relative z-10">
+        {/* Section Header */}
         <SectionTitle
           title="OUR PORTFOLIO"
-          subtitle="Explore some of our latest work."
+          subtitle="Explore our recent full-stack web development projects and custom digital solutions."
         />
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mt-14">
-
+        {/* Portfolio Cards Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8 mt-12">
           {portfolioData.map((project) => (
             <PortfolioCard
               key={project.id}
@@ -28,11 +32,10 @@ const Portfolio = () => {
               onClick={() => setSelectedProject(project)}
             />
           ))}
-
         </div>
-
       </div>
 
+      {/* Interactive Modal Preview */}
       {selectedProject && (
         <PortfolioModal
           project={selectedProject}
