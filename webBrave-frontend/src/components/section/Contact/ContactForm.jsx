@@ -1,13 +1,15 @@
 import { useState } from "react";
+import { createContact } from "../../../services/contactService";
 
 const ContactForm = () => {
-
   const [form, setForm] = useState({
     name: "",
     email: "",
     subject: "",
     message: "",
   });
+
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
     setForm({
@@ -16,19 +18,32 @@ const ContactForm = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    console.log(form);
+    try {
+      setLoading(true);
 
-    alert("Message Sent Successfully!");
+      const data = await createContact(form);
 
-    setForm({
-      name: "",
-      email: "",
-      subject: "",
-      message: "",
-    });
+      alert(data.message);
+
+      setForm({
+        name: "",
+        email: "",
+        subject: "",
+        message: "",
+      });
+    } catch (error) {
+      console.error(error);
+
+      alert(
+        error.response?.data?.message ||
+          "Something went wrong. Please try again.",
+      );
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -36,9 +51,7 @@ const ContactForm = () => {
       onSubmit={handleSubmit}
       className="bg-[#0D1727] border border-[#1B2A3D] rounded-xl p-8"
     >
-
       <div className="grid md:grid-cols-2 gap-5">
-
         <input
           type="text"
           name="name"
@@ -58,7 +71,6 @@ const ContactForm = () => {
           className="bg-[#111827] border border-gray-700 rounded-lg px-4 py-3 text-white outline-none focus:border-yellow-400"
           required
         />
-
       </div>
 
       <input
@@ -77,15 +89,20 @@ const ContactForm = () => {
         value={form.message}
         onChange={handleChange}
         className="w-full mt-5 bg-[#111827] border border-gray-700 rounded-lg px-4 py-3 text-white outline-none resize-none focus:border-yellow-400"
+        required
       />
 
       <button
         type="submit"
-        className="mt-6 bg-yellow-400 hover:bg-yellow-500 text-black px-8 py-3 rounded-lg font-semibold transition"
+        disabled={loading}
+        className={`mt-6 w-full py-3 rounded-lg font-semibold transition duration-300 ${
+          loading
+            ? "bg-gray-500 cursor-not-allowed text-white"
+            : "bg-yellow-400 hover:bg-yellow-500 text-black"
+        }`}
       >
-        Send Message
+        {loading ? "Sending..." : "Send Message"}
       </button>
-
     </form>
   );
 };
